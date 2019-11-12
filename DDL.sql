@@ -21,12 +21,22 @@ create table Customer
 	(
 		username			varchar(20), 
 		customer_name		varchar(50), 
-		delivery_address	varchar(100),
 		phone_number		varchar(20),
 		credit_card_id		serial,
 		primary key (username),
 		foreign key (credit_card_id) references CCard (credit_card_id)
 	);
+
+create table Address 
+	(
+		username varchar(20),
+		address  varchar(100),
+		city     varchar(50),
+		zipcode  varchar(10),
+		state    varchar(50),
+		primary key (username, address, city, zipcode, state),
+		foreign key (uername) references Customer (username);
+	)
 
 create table CCard 
 	(
