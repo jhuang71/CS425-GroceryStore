@@ -10,14 +10,11 @@ const   express     = require('express'),
 
 // For Connecting to PSQL
 const {Client} = require('pg');
-const conString = "postgres://pevn_admin:pevn1234@localhost/pevndb";
+const conString = "postgres://pevn_admin:pevn1234@localhost/g_store";
 const client = new Client({
     connectionString: conString,
 });
 
-app.engine('dust', cons.dust);
-
-app.set('view engine', 'dust');
 app.set('views', __dirname + '/views');
 
 // Set Public Folder
@@ -39,17 +36,32 @@ app.get('/', function(req, res) {
             return console.log('error running query', err);
         }
         //sending data to home route
+        
         res.send(result.rows);
         // res.render('index', {users: result.rows});
     });
 });
 
+app.get('/login/:id/:pw', function (req, res) {
+    const id = req.params.id;
+    const pw = req.params.pw;
+    client.query('SELECT * FROM users where username = $1 AND pword = $2', [id, pw], function(err, result) {
+        if (err) {
+            return console.log('error running query', err);
+        }
+        //sending data to home route
+         
+        res.send(result.rows);
+        // res.render('index', {users: result.rows});
+    });
+})
+
 // insert data to psql when register route is called
 app.post('/register', (req, res) => {
-    client.query('INSERT INTO users(username, password) VALUES ($1, $2)', [req.body.email, req.body.password]);
-       
+    client.query('INSERT INTO users(username, pword) VALUES ($1, $2)', [req.body.username, req.body.password]);
     res.redirect('/');
 });
+
 
 
 

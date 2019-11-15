@@ -3,17 +3,24 @@
     <h1>
       Register
     </h1>
-    <input type="email" name="email" v-model="email" placeholder="email here">
+    <input type="email" name="email" v-model="username" placeholder="email here">
     <input type="password" name="password" v-model="password" placeholder="password">
     <button @click ="register">
       Register
     </button>
+    <button @click ="login">
+      Log In
+    </button>
     <ul>
       <li v-for="item in User">
-        User ID: {{item.id}}, 
         Username: {{item.username}},
-        User Description: {{item.desc}},
-        User Password: {{item.password}}
+        User Password: {{item.pword}}
+      </li>
+    </ul>
+
+    <ul>
+      <li v-for="item in UserLoggedIn">
+        Username: {{item.username}},
       </li>
     </ul>
 
@@ -26,30 +33,43 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      User: [{}],
-      email: '',
+      User: [{}], // catched
+      UserLoggedIn: [{}],
+      username: '',
       password: ''
     }
   },
-  methods: {
+  methods: { // send to backend
     async register () {
       const response = await AuthenticationService.register({
-        email: this.email,
+        username: this.username,
         password: this.password
       })
-      this.$router.go();
+      this.$router.go(); // refresh page
       console.log(response.data)
+    }, 
+    login () {
+      axios.get(`http://localhost:3000/login/${this.username}/${this.password}`).then((response) =>{
+        console.log("hi");
+        this.UserLoggedIn = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      // this.$router.push("/");
+      console.log(response.data);
     }
   },
   mounted() { // catch data from the route
     axios.get('http://localhost:3000').then((response) =>{
       console.log(response.data);
-      this.User =response.data;
+      this.User = response.data;
     })
     .catch((error) => {
       console.log(error);
     })
-  }
+    }
+  
 }
 </script>
 
