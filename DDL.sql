@@ -66,6 +66,7 @@ create table Orders
 		category			varchar(10),
 		size				numeric(6,2),
 		p_weight			numeric(6,2),
+		p_image				varchar(300),
 		primary key (product_id)
 	);
 
