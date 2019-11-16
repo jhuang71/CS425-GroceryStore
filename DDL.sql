@@ -64,7 +64,6 @@ create table Orders
 		product_name		varchar(30),
 		product_price		numeric(8, 2),
 		category			varchar(10),
-		size				numeric(6,2),
 		p_weight			numeric(6,2),
 		p_image				varchar(300),
 		primary key (product_id)
