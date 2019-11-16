@@ -90,7 +90,7 @@ create table Contain
 	
 	create table Warehouse
 	(
-		warehouse_id			serial, 
+		warehouse_id			varchar(10), 
 		supplier_id				varchar(10),
 	 	w_address				varchar(100),
 		storage_capacity		numeric(10,2), 
@@ -113,9 +113,9 @@ create table Stocks
 
 create table Supplies
 	(
-		supplier_id				serial,
+		supplier_id				varchar(10),
 		product_id				serial,
-		warehouse_id			serial,
+		warehouse_id			varchar(10),
 		prod_special_price		numeric(6,2) check (prod_special_price > 0),
 		primary key (supplier_id, product_id, warehouse_id),
 		foreign key (supplier_id) references Supplier (supplier_id),
