@@ -8,11 +8,12 @@ create table Users
 	
 create table Card 
  	(
- 		credit_card_id		serial,
+ 		username			varchar(20),
 		billing_address		varchar(100),
  		card_number			varchar(20),
  		card_pin			varchar(3),
- 		primary key (credit_card_id)
+ 		primary key (username, card_number, billing_address, card_pin),
+		 foreign key (username) references Users
  	);
 
 
@@ -32,9 +33,7 @@ create table Customer
 		username			varchar(20), 
 		customer_name		varchar(50), 
 		phone_number		varchar(20),
-		credit_card_id		serial,
-		primary key (username),
-		foreign key (credit_card_id) references Card (credit_card_id)
+		primary key (username)
 	);
 
 create table Address 
@@ -51,7 +50,7 @@ create table Address
 
 create table Orders
 	(
-		order_id		serial,	
+		order_id		varchar(10),	
 		username		varchar(20),
 		order_status	varchar(20) 
 			check (order_status in ('pending', 'delivering', 'delivered')),
@@ -72,7 +71,7 @@ create table Orders
 
 create table Contain
 	(
-		order_id			serial,
+		order_id			varchar(10),
 		product_id			serial,
 		price_amount		numeric(8, 2),
 		product_quantity	numeric(6),
@@ -83,7 +82,7 @@ create table Contain
 	
 	create table Supplier
 	(
-		supplier_id		serial,
+		supplier_id		varchar(10),
 		supplier_name	varchar(20),
 		s_address		varchar(100),
 		primary key (supplier_id)
@@ -92,7 +91,7 @@ create table Contain
 	create table Warehouse
 	(
 		warehouse_id			serial, 
-		supplier_id				serial,
+		supplier_id				varchar(10),
 	 	w_address				varchar(100),
 		storage_capacity		numeric(10,2), 
 		primary key (warehouse_id),
@@ -103,7 +102,7 @@ create table Contain
 
 create table Stocks
 	(
-		warehouse_id		serial,
+		warehouse_id		varchar(10),
 		product_id			serial, 
 		quantity			numeric(6), 
 		primary key (warehouse_id, product_id),
